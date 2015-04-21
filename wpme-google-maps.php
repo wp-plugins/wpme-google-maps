@@ -3,7 +3,7 @@
 Plugin Name: WPME Google Maps
 Plugin URI: http://wordpress.org/plugins/wpme-google-maps
 Description: Plot your address on a Google Map, with easy to use interface and simple short code.
-Version: 1.0
+Version: 1.0.1
 Author: WPMadeasy
 Author URI: http://wpmadeasy.com
 Text Domain: wpme-google-maps
@@ -13,7 +13,7 @@ License: GPLv2
 
 if(defined('WPME_GMAPS_VERSION')) return;	// Looks like another instance is active.
 
-define('WPME_GMAPS_VERSION', '1.0');
+define('WPME_GMAPS_VERSION', '1.0.1');
 define('WPME_GMAPS_FULLNAME', 'WPME Google Maps');
 define('WPME_GMAPS_SHORTNAME', 'wpmegmaps');
 define('WPME_GMAPS_INITIALS', 'wpmegm_');
@@ -205,7 +205,7 @@ function wpme_get_coordinates($address, $cache=true) {
 			'address' => urlencode($address),
 			'sensor' => 'false'
 		);
-    	$url = add_query_arg($args, 'http://maps.googleapis.com/maps/api/geocode/json');
+    	$url = esc_url_raw(add_query_arg($args, 'http://maps.googleapis.com/maps/api/geocode/json'));
      	$response = wp_remote_get($url);
 
      	if(is_wp_error($response)) {

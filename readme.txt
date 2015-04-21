@@ -5,8 +5,8 @@ Contributors: wpmadeasy
 Donate link: http://wpmadeasy.com/google-maps
 Tags: Google Maps, Google Map, Short Code, gmaps, Wordpress Made Easy, WPMadeasy, WPME
 Requires at least: 3.5
-Tested up to: 4.1.1
-Stable Tag: 1.0
+Tested up to: 4.2
+Stable Tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,10 @@ Absolutely no Google Maps API Key is required. Just install and use the plugin.
 3. Simple short code, you can use without UI also
 
 == Changelog ==
+
+= 1.0.1 =
+* add_query_arg() vulnerability fix for potential XSS attack vectors
+* Compatibility testing up to Word Press 4.2
 
 = 1.0 =
 * First release

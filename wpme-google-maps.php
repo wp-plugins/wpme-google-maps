@@ -3,7 +3,7 @@
 Plugin Name: WPME Google Maps
 Plugin URI: http://wordpress.org/plugins/wpme-google-maps
 Description: Plot your address on a Google Map, with easy to use interface and simple short code.
-Version: 1.0.1
+Version: 1.1
 Author: WPMadeasy
 Author URI: http://wpmadeasy.com
 Text Domain: wpme-google-maps
@@ -13,11 +13,12 @@ License: GPLv2
 
 if(defined('WPME_GMAPS_VERSION')) return;	// Looks like another instance is active.
 
-define('WPME_GMAPS_VERSION', '1.0.1');
+define('WPME_GMAPS_VERSION', '1.1');
 define('WPME_GMAPS_FULLNAME', 'WPME Google Maps');
 define('WPME_GMAPS_SHORTNAME', 'wpmegmaps');
 define('WPME_GMAPS_INITIALS', 'wpmegm_');
 define('WPME_GMAPS_TEXTDOMAIN', 'wpme-google-maps');
+define('WPME_GMAPS_DESCRIPTION', 'Plot your address on a Google Map, with easy to use interface and simple short code.');
 
 // Paths
 define('WPME_GMAPS_PATH', dirname(__FILE__));
@@ -25,6 +26,7 @@ define('WPME_GMAPS_FOLDER', basename(WPME_GMAPS_PATH));
 
 // URLs
 define('WPME_GMAPS_URL', plugin_dir_url( __FILE__ ));
+define('WPME_GMAPS_IMGURL', WPME_GMAPS_URL."images");
 
 // Activate
 function wpme_gmaps_activate() {}
@@ -36,9 +38,13 @@ register_deactivation_hook( __FILE__, 'wpme_gmaps_deactivate' );
 
 function wpme_gmaps_enqueue_scripts() {
 	wp_enqueue_style(WPME_GMAPS_SHORTNAME.'-colorbox', WPME_GMAPS_URL.'colorbox.css');
+	wp_enqueue_style(WPME_GMAPS_SHORTNAME.'-jqueryui', WPME_GMAPS_URL.'/jquery-ui.min.css');
 	wp_enqueue_style(WPME_GMAPS_SHORTNAME.'-core', WPME_GMAPS_URL.'wpme-google-maps.css');
 
 	wp_enqueue_script('jquery');
+	wp_enqueue_script('jquery-ui-core');
+	wp_enqueue_script('jquery-ui-tabs');
+
 	wp_enqueue_script(WPME_GMAPS_SHORTNAME.'-colorbox', WPME_GMAPS_URL . 'jquery.colorbox-min.js', array('jquery'), null, true);
 	wp_enqueue_script(WPME_GMAPS_SHORTNAME.'-core', WPME_GMAPS_URL . 'wpme-google-maps.js', array('jquery'), '1.0.0', true);
 
@@ -62,9 +68,31 @@ add_action('admin_init', 'wpme_gmaps_enqueue_scripts');
  * Register custom button(s) for WP Editor
  */
 function wpme_gmaps_custom_buttons($context) {
+	$options = get_option('wpmegm_options');
+	$button_appearance = esc_attr($options["general"]["button_appearance"]);
+
 	$img = WPME_GMAPS_URL . 'wpme-google-maps.png';
 	$title = WPME_GMAPS_FULLNAME;
-	$context .= "<a title='{$title}' class='button' id='".WPME_GMAPS_INITIALS."InsertShortcode' href='#'><img src='{$img}' /> $title</a>";
+	$context .= "<a title='{$title}' class='button' id='".WPME_GMAPS_INITIALS."InsertShortcode' href='#'>";
+
+	$icon = "<img src='{$img}' /> ";
+	$text = "$title";
+
+	switch($button_appearance) {
+		case "icon":
+			$context .= $icon;
+			break;
+
+		case "text":
+			$context .= $text;
+			break;
+
+		default:
+			$context .= $icon.$text;
+			break;
+	}
+
+	$context .= "</a>";
 
 	return $context;
 }
@@ -253,4 +281,26 @@ function wpme_get_coordinates($address, $cache=true) {
 
 function wpme_sanitize_id($id) {
 	return str_replace("-", "_", $id);
+}
+
+// create custom plugin settings menu
+add_action('admin_menu', 'wpmegm_create_menu');
+
+function wpmegm_create_menu() {
+
+	//create new top-level menu
+	add_menu_page('WPME Google Maps Settings', 'WPME Google Maps', 'manage_options', __FILE__, 'wpmegm_settings_page', WPME_GMAPS_IMGURL.'/icon-wpmegm24x24.png');
+
+	//call register settings function
+	add_action( 'admin_init', 'wpmegm_register_settings' );
+}
+
+
+function wpmegm_register_settings() {
+	//register our settings
+	register_setting('wpmegm-settings', 'wpmegm_options');
+}
+
+function wpmegm_settings_page() {
+	include(WPME_GMAPS_PATH."/options/default.php");
 }

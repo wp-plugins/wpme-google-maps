@@ -5,8 +5,8 @@ Contributors: wpmadeasy
 Donate link: http://wpmadeasy.com/google-maps
 Tags: Google Maps, Google Map, Short Code, gmaps, Wordpress Made Easy, WPMadeasy, WPME
 Requires at least: 3.5
-Tested up to: 4.2
-Stable Tag: 1.0.1
+Tested up to: 4.2.2
+Stable Tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ WPME Google Maps offers following features:
 * Full Street Address (address)
 * Width of Map, %age or px (width)
 * Height of Map, %age or px (height)
-* Marker Image (marker)
+* Marker Image (marker), select from available markers supplied by the plugin or use your own
 * Zoom Level (zoom)
 * Map Type, ROADMAP, SATELLITE, HYBRID or TERRAIN (type)
 * Scroll Wheel Support, enable/disable (swheel)
@@ -55,6 +55,15 @@ Absolutely no Google Maps API Key is required. Just install and use the plugin.
 3. Simple short code, you can use without UI also
 
 == Changelog ==
+
+= 1.1 =
+* Added 10 new markers
+* Built-in pages for plugin Settings, Help and Support
+* Dedicated menu option for plugin, in Word Press Admin left side menu
+* Settings Page: Control plugin icon's visibility
+* Help Page: Quick reference short code usage and attributes, and link to online User's Guide
+* Support Page: Links to plugin support, questions, change log and previous versions
+* Some performance improvements
 
 = 1.0.1 =
 * add_query_arg() vulnerability fix for potential XSS attack vectors

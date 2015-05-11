@@ -20,9 +20,26 @@
 		</div>
 
 		<div class="wpmegm-control">
-			<label for="wpmegm-control-marker" class="wpmegm-control-label"><?=__('Address Marker Icon URL', 'wpme-google-maps')?> <span class="optional wpmegm-right"><?=__('(optional)', 'wpme-google-maps')?></span></label>
-			<input type="text" id="wpmegm-control-marker" name="wpmegm-param-marker" class="wpmegm-control-text wpmegm-param" data-param-name="marker" />
-			<span class="notes"><?=__('URL to a custom .png/.jpg/.gif image to use as marker icon. Default is Google Map Pin Icon.', 'wpme-google-maps')?></span>
+			<div class="wpmegm-preview" style="float: right; width: 10%; text-align: right;">
+				<img src="" style="display: none;" />
+			</div>
+			<label for="wpmegm-control-marker" class="wpmegm-control-label" style="float: left; width: 89%;"><?=__('Address Marker Icon URL', 'wpme-google-maps')?> <span class="optional wpmegm-right"><?=__('(optional)', 'wpme-google-maps')?></span></label>
+			<select id="wpmegm-control-marker" name="wpmegm-param-marker" class="wpmegm-control-select wpmegm-param wpmegm-opt-a" data-param-name="marker" style="float: left; width: 89%;">
+				<option value="">Default</option>
+				<option value="<?php echo WPME_GMAPS_IMGURL; ?>/markers/blue.png">Blue</option>
+				<option value="<?php echo WPME_GMAPS_IMGURL; ?>/markers/green.png">Green</option>
+				<option value="<?php echo WPME_GMAPS_IMGURL; ?>/markers/litegreen.png">Lite Green</option>
+				<option value="<?php echo WPME_GMAPS_IMGURL; ?>/markers/orange.png">Orange</option>
+				<option value="<?php echo WPME_GMAPS_IMGURL; ?>/markers/pink.png">Pink</option>
+				<option value="<?php echo WPME_GMAPS_IMGURL; ?>/markers/red.png">Red</option>
+				<option value="<?php echo WPME_GMAPS_IMGURL; ?>/markers/skyblue.png">Sky Blue</option>
+				<option value="<?php echo WPME_GMAPS_IMGURL; ?>/markers/teal.png">Teal</option>
+				<option value="<?php echo WPME_GMAPS_IMGURL; ?>/markers/teapink.png">Tea Pink</option>
+				<option value="<?php echo WPME_GMAPS_IMGURL; ?>/markers/yellow.png">Yellow</option>
+				<option value="custom">Custom URL</option>
+			</select>
+			<input type="text" id="wpmegm-control-marker" name="wpmegm-param-marker" class="wpmegm-control-text wpmegm-param wpmegm-opt-b" data-param-name="marker" style="float: left; width: 89%; display: none;" />
+			<span class="notes" style="float: left; width: 89%;"><?=__('URL to a custom .png/.jpg/.gif image to use as marker icon. Default is Google Map Pin Icon.', 'wpme-google-maps')?></span>
 		</div>
 
 		<div class="wpmegm-control">
@@ -91,6 +108,27 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function($){
+		$("#wpmegm-control-marker").on("change", function(){
+			var v = $(this).val();
+
+			if(v !== "" && v !== "custom") {
+				//var src = '<?php echo WPME_GMAPS_IMGURL; ?>/markers/' + v;
+				$(".wpmegm-preview img").attr("src", v);
+				$(".wpmegm-preview img").show();
+			} else {
+				$(".wpmegm-preview img").attr("src", "").hide();
+				$(".wpmegm-preview img").hide();
+			}
+
+			if(v == "custom") {
+				$(".wpmegm-opt-b").show();
+			} else {
+				$(".wpmegm-opt-b").val("");
+				$(".wpmegm-opt-b").hide();
+			}
+
+		});
+
 		wpme_gmaps_insert();
 	});
 </script>
